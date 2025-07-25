@@ -1,0 +1,95 @@
+﻿@model GestionTareas.Modelos.Tarea
+
+@{
+    ViewData["Title"] = "Crear Tarea";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var prioridades = new List<int> {
+        1,2,3
+    };
+    var estados = new List<string> {
+        "Pendiente"
+    };
+}
+
+
+<div class="container mt-5">
+<h1>Crea una tarea</h1>
+
+<h4>Tarea</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label">Nombre</label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descripcion" class="control-label">Descripción</label>
+                <input asp-for="Descripcion" class="form-control" />
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaInicio" class="control-label">Fecha Inicio</label>
+                <input asp-for="FechaInicio" class="form-control" />
+                <span asp-validation-for="FechaInicio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaFin" class="control-label">Fecha Fin</label>
+                <input asp-for="FechaFin" class="form-control" />
+                <span asp-validation-for="FechaFin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Prioridad" class="control-label">Prioriad</label>
+                    <select asp-for="Prioridad" class="form-control">
+                        <option value="">-- Selecciona la prioridad --</option>
+                        @foreach (var prioridad in prioridades)
+                        {
+                            <option value="@prioridad">@prioridad</option>
+                        }
+                    </select>
+
+                <span asp-validation-for="Prioridad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Estado" class="control-label">Estado</label>
+                    <select asp-for="Estado" class="form-control">
+                        <option value="">-- Selecciona el estado --</option>
+                        @foreach (var estado in estados)
+                        {
+                            <option value="@estado">@estado</option>
+                        }
+                    </select>
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+                <div class="form-group">
+                    <label asp-for="UsuarioId" class="control-label">Líder del proyecto</label>
+                    <select asp-for="UsuarioId" class="form-control" asp-items="ViewBag.Usuarios">
+                        <option value="">-- Seleccione un desarrollador --</option>
+                    </select>
+                    <span asp-validation-for="UsuarioId" class="text-danger"></span>
+                </div>
+            <div class="form-group">
+                <label asp-for="ProyectoId" class="control-label">Proyecto</label>
+                    <select asp-for="UsuarioId" class="form-control" asp-items="ViewBag.Proyectos">
+                        <option value="">-- Seleccione un proyecto --</option>
+                    </select>
+                <span asp-validation-for="ProyectoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Regresar</a>
+</div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

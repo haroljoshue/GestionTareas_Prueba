@@ -1,0 +1,82 @@
+﻿@model GestionTareas.Modelos.Proyecto
+
+@{
+    ViewData["Title"] = "Detalles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+<h1>Detalles del proyecto</h1>
+
+<div>
+    <h4>Proyecto</h4>
+    <hr />
+    <dl class="row">
+
+        <dt class = "col-sm-2">
+            Nombre
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class = "col-sm-2">
+            Desccripción
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+        <dt class = "col-sm-2">
+            Fecha Creación
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FechaCreacion)
+        </dd>
+        <dt class = "col-sm-2">
+            Fecha Finalización
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FechaFinalizacion)
+        </dd>
+        <dt class = "col-sm-2">
+            Líder del proyecto
+        </dt>
+        <dd class = "col-sm-10">
+                @Model.Usuario?.Nombre @Model.Usuario?.Apellido
+            </dd>
+    </dl>
+</div>
+<div>
+    <h3>Tareas del proyecto</h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Nombre</th>
+					<th>Descripción</th>
+					<th>Fecha Inicio</th>
+					<th>Fecha Fin</th>
+					<th>Prioridad</th>
+					<th>Estado</th>
+					<th>Desarrollador</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var tarea in Model.Tareas)
+				{
+					<tr>
+						<td>@Html.DisplayFor(modelItem => tarea.Nombre)</td>
+						<td>@Html.DisplayFor(modelItem => tarea.Descripcion)</td>
+						<td>@Html.DisplayFor(modelItem => tarea.FechaInicio)</td>
+						<td>@Html.DisplayFor(modelItem => tarea.FechaFin)</td>
+						<td>@Html.DisplayFor(modelItem => tarea.Prioridad)</td>
+						<td>@Html.DisplayFor(modelItem => tarea.Estado)</td>
+						<td>@Html.DisplayFor(modelItem => tarea.Usuario.Nombre) @Html.DisplayFor(modelItem => tarea.Usuario.Apellido)</td>
+					</tr>
+				}
+			</tbody>
+</div>
+
+<div>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |
+    <a asp-action="Index">Regresar</a>
+</div>
+</div>

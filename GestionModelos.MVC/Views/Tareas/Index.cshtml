@@ -1,0 +1,87 @@
+﻿@model IEnumerable<GestionTareas.Modelos.Tarea>
+
+@{
+    ViewData["Title"] = "Tareas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+<h1>Tareas</h1>
+
+<p>
+    <a asp-action="Create">Crear Tarea</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Descripción
+            </th>
+            <th>
+                Fecha Inicio
+            </th>
+            <th>
+                Fecha Fin
+            </th>
+            <th>
+                Prioridad
+            </th>
+            <th>
+                Estado
+            </th>
+            <th>
+                Desarrollador
+            </th>
+            <th>
+                Proyecto
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaFin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prioridad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                        @if (item.Usuario != null)
+                        {
+                            @($"{item.Usuario.Nombre} {item.Usuario.Apellido}")
+                        }
+                        else
+                        {
+                            <span class="text-danger">Sin asignar</span>
+                        }
+                    </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProyectoId)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id=item.Id}) |
+                @Html.ActionLink("Detalles", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Eliminar", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>

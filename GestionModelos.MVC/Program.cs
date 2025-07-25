@@ -16,7 +16,7 @@ namespace GestionModelos.MVC
 
             Crud<LogEvento>.EndPoint = "https://localhost:7227/api/LogEventos";
             Crud<MiembrosProyecto>.EndPoint = "https://localhost:7227/api/MiembrosProyectos";
-            Crud<Proyecto>.EndPoint = "'https://localhost:7227/api/Proyectos";
+            Crud<Proyecto>.EndPoint = "https://localhost:7227/api/Proyectos";
             Crud<Tarea>.EndPoint = "https://localhost:7227/api/Tareas";
             Crud<Usuario>.EndPoint = "https://localhost:7227/api/Usuarios"; 
 

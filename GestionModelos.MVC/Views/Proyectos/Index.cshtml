@@ -1,0 +1,70 @@
+﻿@model IEnumerable<GestionTareas.Modelos.Proyecto>
+
+@{
+    ViewData["Title"] = "Proyectos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+<h1>Mis proyectos</h1>
+
+<p>
+    <a asp-action="Create">Create Proyecto</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                Nombre
+            </th>
+            <th>
+                Descripción
+            </th>
+            <th>
+                Fecha Creación
+            </th>
+            <th>
+                Fecha Finalización
+            </th>
+            <th>
+                Líder del proyecto
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaCreacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaFinalizacion)
+            </td>
+            <td>
+                        @if (item.Usuario != null)
+                        {
+                            @($"{item.Usuario.Nombre} {item.Usuario.Apellido}")
+                        }
+                        else
+                        {
+                            <span class="text-danger">Sin asignar</span>
+                        }
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Detalles", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Eliminar", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>

@@ -23,4 +23,8 @@
     <ProjectReference Include="..\GestionTareas.Modelos\GestionTareas.Modelos.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Reportes\" />
+  </ItemGroup>
+
 </Project>

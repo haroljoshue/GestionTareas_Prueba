@@ -111,6 +111,15 @@ namespace GestionModelos.MVC.Areas.Identity.Pages.Account
                      
                     var nuevoUsuario = await Crud<Usuario>.CreateAsync(usuario);
 
+
+                    var log = new LogEvento
+                    {
+                        Fecha = DateTime.Now,
+                        Descripcion = $"Usuario {usuario.Nombre} {usuario.Apellido} creado."
+                    };
+
+                    var lognew = await Crud<LogEvento>.CreateAsync(log);
+
                     await _userManager.AddToRoleAsync(user, "desarrollador");
 
                     var userId = await _userManager.GetUserIdAsync(user);
