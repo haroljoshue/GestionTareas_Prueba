@@ -55,8 +55,8 @@ namespace GestionTareas.Api.Controllers
         {
             using var connection = new SqlConnection(_config.GetConnectionString("GestionTareasApiContext"));
             connection.Open();
-            connection.Execute("UPDATE Proyectos SET Nombre = @Nombre, Descripcion = @Descripcion WHERE Id = @Id",
-                new { Id = id, Nombre = proyecto.Nombre, Descripcion = proyecto.Descripcion });
+            connection.Execute("UPDATE Proyectos SET Nombre = @Nombre, Descripcion = @Descripcion, FechaCreacion = @FechaCreacion, FechaFinalizacion = @FechaFinalizacion, UsuarioId = @UsuarioId WHERE Id = @Id",
+                new { Id = id, Nombre = proyecto.Nombre, Descripcion = proyecto.Descripcion, FechaCreacion = proyecto.FechaCreacion, FechaFinalizacion = proyecto.FechaFinalizacion, UsuarioId = proyecto.UsuarioId });
         }
 
         // POST: api/Proyectos
@@ -66,8 +66,9 @@ namespace GestionTareas.Api.Controllers
         {
             using var connection = new SqlConnection(_config.GetConnectionString("GestionTareasApiContext"));
             connection.Open();
-            var id = connection.QuerySingle<int>("INSERT INTO Proyectos (Nombre, Descripcion) OUTPUT INSERTED.Id VALUES (@Nombre, @Descripcion)",
-                new { Nombre = proyecto.Nombre, Descripcion = proyecto.Descripcion });
+            var id = connection.QuerySingle<int>("INSERT INTO Proyectos (Nombre, Descripcion, FechaCreacion, FechaFinalizacion, UsuarioId) OUTPUT INSERTED.Id VALUES (@Nombre, @Descripcion, @FechaCreacion, @FechaFinalizacion, @UsuarioId)",
+                new { Nombre = proyecto.Nombre, Descripcion = proyecto.Descripcion, FechaCreacion = proyecto.FechaCreacion, FechaFinalizacion = proyecto.FechaFinalizacion, UsuarioId = proyecto.UsuarioId });
+            return proyecto;
         }
 
         // DELETE: api/Proyectos/5
@@ -76,6 +77,7 @@ namespace GestionTareas.Api.Controllers
         {
             using var connection = new SqlConnection(_config.GetConnectionString("GestionTareasApiContext"));
             connection.Open();
+            connection.Execute("DELETE FROM Proyectos WHERE Id = @Id", new { Id = id });
         }
 
         /*private bool ProyectoExists(int id)

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GestionTareas.Modelos;
 using Microsoft.Data.SqlClient;
+using Dapper;
 
 namespace GestionTareas.Api.Controllers
 {
@@ -27,6 +28,8 @@ namespace GestionTareas.Api.Controllers
         {
             using var connection = new SqlConnection(_config.GetConnectionString("GestionTareasApiContext"));
             connection.Open();
+            var tareas = connection.Query<Tarea>("SELECT * FROM Tareas");
+            return tareas;
         }
 
         // GET: api/Tareas/5
@@ -35,6 +38,7 @@ namespace GestionTareas.Api.Controllers
         {
             using var connection = new SqlConnection(_config.GetConnectionString("GestionTareasApiContext"));
             connection.Open();
+            var tarea = connection.QueryFirstOrDefault<Tarea>("SELECT * FROM Tareas WHERE Id = @Id", new { Id = id });
 
             if (tarea == null)
             {
@@ -51,6 +55,8 @@ namespace GestionTareas.Api.Controllers
         {
             using var connection = new SqlConnection(_config.GetConnectionString("GestionTareasApiContext"));
             connection.Open();
+            connection.Execute("UPDATE Tareas SET Nombre = @Nombre, Descripcion = @Descripcion, FechaInicio = @FechaInicio, FechaFin = @FechaFin, Prioridad = @Prioridad, Estado = @Estado, UsuarioId = @UsuarioId, ProyectoId = @ProyectoId WHERE Id = @Id",
+                new { Id = id, Nombre = tarea.Nombre, Descripcion = tarea.Descripcion, FechaInicio = tarea.FechaInicio, FechaFin = tarea.FechaFin, Prioridad = tarea.Prioridad, Estado = tarea.Estado, UsuarioId = tarea.UsuarioId, ProyectoId = tarea.ProyectoId });
         }
 
         // POST: api/Tareas
@@ -60,6 +66,9 @@ namespace GestionTareas.Api.Controllers
         {
             using var connection = new SqlConnection(_config.GetConnectionString("GestionTareasApiContext"));
             connection.Open();
+            var id = connection.QuerySingle<int>("INSERT INTO Tareas (Nombre, Descripcion, FechaInicio, FechaFin, Prioridad, Estado, UsuarioId, ProyectoId) OUTPUT INSERTED.Id VALUES (@Nombre, @Descripcion, @FechaInicio, @FechaFin, @Prioridad, @Estado, @UsuarioId, @ProyectoId)",
+                new { Nombre = tarea.Nombre, Descripcion = tarea.Descripcion, FechaInicio = tarea.FechaInicio, FechaFin = tarea.FechaFin, Prioridad = tarea.Prioridad, Estado = tarea.Estado, UsuarioId = tarea.UsuarioId, ProyectoId = tarea.ProyectoId });
+            return tarea;
         }
 
         // DELETE: api/Tareas/5
@@ -68,6 +77,7 @@ namespace GestionTareas.Api.Controllers
         {
             using var connection = new SqlConnection(_config.GetConnectionString("GestionTareasApiContext"));
             connection.Open();
+            connection.Execute("DELETE FROM Tareas WHERE Id = @Id", new { Id = id });
         }
 
         /*private bool TareaExists(int id)
