@@ -22,4 +22,6 @@ public class GestionTareasApiContext : DbContext
     public DbSet<GestionTareas.Modelos.Tarea> Tareas { get; set; } = default!;
 
     public DbSet<GestionTareas.Modelos.Usuario> Usuarios { get; set; } = default!;
+
+public DbSet<GestionTareas.Modelos.AspNetRoles> AspNetRoles { get; set; } = default!;
 }
